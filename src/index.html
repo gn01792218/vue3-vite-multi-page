@@ -1,13 +1,14 @@
 <!DOCTYPE html>
+<!-- 此為專門DEV開發專用的，build時不會產出 -->
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>導向</title>
+    <title><%= VITE_TITLE %></title>
   </head>
   <body>
-    導向頁面
-    <script type="module" src="./main.ts"></script>
+    <div id="app"></div>
+    <script type="module" src="./pages/template2/main.ts"></script>
   </body>
 </html>

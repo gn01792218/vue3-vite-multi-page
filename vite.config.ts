@@ -26,8 +26,8 @@ export default ({ mode }) => {
       rollupOptions: {
         input: {
           //第一個參數是根目錄，第二個參數是資料夾路徑，第三個參數是入口檔案
-          main: resolve(__dirname,'src/pages/main/index.html'),
-          template2: resolve(__dirname,'src/pages/template2/index.html')
+          main: resolve(__dirname,'src/main.html'),
+          template2: resolve(__dirname,'src/template2.html')
         }
       }
     }
