@@ -11,16 +11,82 @@ npm run dev
 ```
 npm run build
 ```
-# 專案 git flow
-## 分支開發流程
-### main - dev整合測試OK後merge上版
-### dev - 所有功能分支都從dev開出
-### feature - 新功能分支 例如 : feature/userLogin
-### fix - bug修復分支 ， 例如 : fix/userLogin
-## 現有分支
-### feature/readMe -->修改README.md專用
-### feature/codeReview -->codeReview專用
-### feature/rwd -->調整RWD專用
+# 多頁面配置
+## vite.config.ts 配置打包輸出選項
+build的設置，在打包時，會抓取該html進行打包輸出
+```javascript
+root:mode === 'development' ? '':resolve(__dirname, ''),
+base: env.VITE_BASE_URL,
+build: {
+  outDir:resolve(__dirname, 'dist'),
+  emptyOutDir: true,
+  rollupOptions: {
+      input: {
+        main: resolve(__dirname,'src/main.html'),
+        template2: resolve(__dirname,'src/template2.html')
+      }
+    }
+}
+```
+## 讓HTML可以接收env參數- 使用 vite-plugin-html
+檔案結構如下 : 
+src----
+  pages----
+    main----
+      APP.vue
+      main.ts
+    template2----
+      APP.vue
+      main.ts
+  index.html
+  main.html
+  template2.html
+
+```javascript
+import { createHtmlPlugin } from 'vite-plugin-html'
+
+***********
+ plugins: [
+      vue(),
+      createHtmlPlugin({
+        minify:true,
+        pages:[
+         {
+            entry:mode === 'development' ?`src/pages/main/main.ts` : resolve(`src/pages/main/main.ts`),  //為template注入entry入口檔案( 所以該html檔案就不需要寫script囉! )
+            filename:'main.html',  //只能用index.html
+            template:'src/main.html',   //要使用哪一個檔案作為模板
+            injectOptions:{
+              data:{
+                title:env.VITE_TITLE
+              }
+            }
+          },
+          {
+            entry:mode === 'development' ?`src/pages/template2/main.ts` : resolve(`src/pages/template2/main.ts`),  //為template注入entry入口檔案( 所以該html檔案就不需要寫script囉! )
+            filename:'template2.html',  //只能用index.html
+            template:'src/template2.html',   //要使用哪一個檔案作為模板
+            injectOptions:{
+              data:{
+                title:env.VITE_TITLE
+              }
+            }
+          },
+          {   //給開發時使用，切換env檔案，按下npm run dev 就會自動抓取不同入口
+            entry:mode === 'development' ?`src/pages/${env.VITE_TEMPLATE}/main.ts` : resolve(`src/pages/${env.VITE_TEMPLATE}/main.ts`),  //為template注入entry入口檔案( 所以該html檔案就不需要寫script囉! )
+            filename:'index.html',  //只能用index.html
+            template:'src/index.html',   //要使用哪一個檔案作為模板
+            injectOptions:{
+              data:{
+                title:env.VITE_TITLE
+              }
+            }
+          },
+        ]
+      })
+    ],
+```
+
+
 
 # Tailwind 使用
 ## 安裝
