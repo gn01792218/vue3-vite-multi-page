@@ -29,6 +29,7 @@ build: {
 }
 ```
 ## 讓HTML可以接收env參數- 使用 vite-plugin-html
+參考文章https://segmentfault.com/a/1190000042330162
 檔案結構如下 : 
 src----
   pages----
@@ -41,6 +42,9 @@ src----
   index.html
   main.html
   template2.html
+
+  在多頁面中指定root時，vite-plugin-html會報錯，
+  因為其template在有root配置情況下，使用resolve絕對路徑會導致注入失敗
 
 ```javascript
 import { createHtmlPlugin } from 'vite-plugin-html'
