@@ -3,6 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
+    "main":"vite serve src/pages/main/ --config ./vite.config.ts --open",
+    "template2":"vite serve src/pages/template2/ --config ./vite.config.ts --open",
     "dev": "vite --open",
     "build": "vue-tsc && vite build",
     "preview": "vite preview"
